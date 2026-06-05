@@ -17,5 +17,9 @@ COPY xrdp.conf /etc/supervisor/conf.d/xrdp.conf
 COPY create-user.sh /usr/local/bin/create-user.sh
 RUN chmod +x /usr/local/bin/create-user.sh
 
+# Add kali user to sudoers
+RUN usermod -aG sudo kali && \
+    echo "kali ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 CMD ["/bin/bash", "-c", "/usr/local/bin/create-user.sh && supervisord -n -c /etc/supervisor/supervisord.conf"]
 
