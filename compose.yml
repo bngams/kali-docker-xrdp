@@ -1,0 +1,21 @@
+services:
+  kali-xrdp:
+    build: .
+    container_name: kali-xrdp
+    ports:
+      - "3390:3390"
+    # Use host network to share VPN connection from host
+    # Uncomment if you want container to use host's network stack (including VPN)
+    # network_mode: "host"
+    environment:
+      - RDP_USER=${RDP_USER:-kali}
+      - RDP_PASSWORD=${RDP_PASSWORD:-kali}
+    volumes: # If you want to run Docker commands inside the container, you need to mount the Docker socket and binary
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    restart: unless-stopped
+    hostname: kali-docker
+    cap_add:
+      - NET_ADMIN  # Required for some security tools
+    stdin_open: true
+    tty: true
