@@ -17,5 +17,7 @@ services:
     hostname: kali-docker
     cap_add:
       - NET_ADMIN  # Required for some security tools
+    devices:
+      - /dev/net/tun  # Required for VPN/OpenVPN
     stdin_open: true
     tty: true
